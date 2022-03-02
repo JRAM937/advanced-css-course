@@ -64,11 +64,15 @@ and height in logo.*/
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%); /*Translates the text so that it is perfectly centered*/
+    text-align: center;
 }
 
 .heading-primary{
     color: white;
     text-transform: uppercase;
+
+    backface-visibility: hidden; /*Fixes "shaky" animation; Determines if the back of an element is visible*/
+    margin-bottom: 60px;
 }
 
 .heading-primary-main{
@@ -76,6 +80,13 @@ and height in logo.*/
     font-size: 60px;
     font-weight: 400;
     letter-spacing: 35px;
+
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-in; /*Slow start, fast end*/
+    
+    /* animation-delay: 3s; 
+    animation-iteration-count: 3; */
 }
 
 .heading-primary-sub{
@@ -83,4 +94,119 @@ and height in logo.*/
     font-size: 20px;
     font-weight: 700;
     letter-spacing: 17.4px;
+
+    animation: moveInRight 1s ease-in-out; /*Shorthand for animation properties*/
+}
+
+/*Animations with the keyframes attribute*/
+@keyframes moveInLeft{
+    /*You can specify "keyframes" for an animation.
+    In this case. 0% refers to the start of the animation and 100% is the end of the animation*/
+    0%{
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    80%{
+        transform: translateX(10px);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@keyframes moveInRight{
+    /*You can specify "keyframes" for an animation.
+    In this case. 0% refers to the start of the animation and 100% is the end of the animation*/
+    0%{
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    80%{
+        transform: translateX(-10px);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@keyframes moveInBottom{
+    /*You can specify "keyframes" for an animation.
+    In this case. 0% refers to the start of the animation and 100% is the end of the animation*/
+    0%{
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+/*Pseudoclass: Used to start elements under special conditions
+i.e. "Visited" and "Link" makes this button a link button*/
+.btn:link, 
+.btn:visited.btn:visited{
+    text-transform: uppercase;
+    text-decoration: none; /*Removes special formatting (i.e. "link" alwasy gives text a blue underline*/
+    padding: 15px 40px; /*Order of padding: Top, Bottom, Left, Right*/
+    display: inline-block;
+    border-radius: 100px; /*Makes button round*/
+    transition: all .2s; /*Enable all properties to be animated*/
+    position: relative;
+}
+
+.btn:hover{
+    transform: translateY(-3px); /*Note: "UP" on the y axis is a negative value in CSS*/
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+}
+
+.btn:active{
+    transform: translateY(-1px); 
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+.btn-white{
+    background-color: white;
+    color: #777;
+}
+
+
+/*This pseudo element is treated like a child of our btn.
+    We can use this to change the appearance of the button for a very short period of time*/
+.btn::after{
+    /*Must specify content and display or this will not work*/
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+
+    position: absolute; /*Places after button behind our actual button*/
+    top: 0;
+    left: 0;
+    z-index: -1; /*Defindes position of an element if it is on top of another element*/
+    transition: all .4s; /*Speed of which the "after" button appears/dissapears*/
+}
+
+/*Applies btn-white formatting to the btn after class*/
+.btn-white::after{
+    background-color: white;
+}
+
+/*We want to see the after button when we hover over our button*/
+.btn:hover::after{
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0; /*Makes button fade out after it is done*/
+}
+
+.btn-animated{
+    animation: moveInBottom .5s ease-out .75s;
+    animation-fill-mode: backwards; /*Applies "0%" animation styles BEFORE the element shows up on the page (aka makes it invisible by default)*/
 }
